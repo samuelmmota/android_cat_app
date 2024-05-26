@@ -66,4 +66,16 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //retrofit
+    implementation(libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
+    //jetpack compose
+    implementation(libs.coil.compose)
+    implementation(libs.ui)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.accompanist.flowlayout)
 }
