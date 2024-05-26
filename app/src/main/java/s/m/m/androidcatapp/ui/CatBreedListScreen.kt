@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,22 +19,44 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import s.m.m.androidcatapp.model.CatBreed
 import s.m.m.androidcatapp.viewmodel.BreedViewModel
-
+import androidx.compose.runtime.getValue
 
 @Composable
 fun CatBreedListScreen() {
     val viewModel: BreedViewModel = viewModel()
-    val breeds = viewModel.breeds.collectAsState()
+    val breeds by viewModel.filteredBreeds.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(8.dp)
-    ) {
-        items(breeds.value) { breed ->
-            CatBreedItem(breed)
+    Column {
+        SearchBar(
+            query = searchQuery,
+            onQueryChanged = viewModel::onSearchQueryChanged
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            items(breeds) { breed ->
+                CatBreedItem(breed)
+            }
         }
     }
+}
+
+@Composable
+fun SearchBar(
+    query: String,
+    onQueryChanged: (String) -> Unit
+) {
+    OutlinedTextField(
+        value = query,
+        onValueChange = onQueryChanged,
+        label = { Text("Search Breeds") },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    )
 }
 
 @Composable
