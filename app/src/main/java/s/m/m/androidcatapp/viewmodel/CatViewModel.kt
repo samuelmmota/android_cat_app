@@ -50,4 +50,14 @@ class BreedViewModel : ViewModel() {
     fun onSearchQueryChanged(query: String) {
         _searchQuery.value = query
     }
+
+    fun toggleFavorite(breedId: String) {
+        _breeds.value = _breeds.value.map { breed ->
+            if (breed.id == breedId) {
+                breed.copy(isFavorite = !breed.isFavorite)
+            } else {
+                breed
+            }
+        }
+    }
 }

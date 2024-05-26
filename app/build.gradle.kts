@@ -78,4 +78,6 @@ dependencies {
     implementation(libs.androidx.material)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.accompanist.flowlayout)
+    implementation(libs.androidx.material.icons.extended)
+
 }
