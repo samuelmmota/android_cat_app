@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import s.m.m.androidcatapp.model.CatBreed
@@ -13,10 +14,7 @@ import s.m.m.androidcatapp.repository.CatRepository
 
 class BreedViewModel : ViewModel() {
     private val repository = CatRepository()
-
     private val _breeds = MutableStateFlow<List<CatBreed>>(emptyList())
-    val breeds: StateFlow<List<CatBreed>> = _breeds
-
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
@@ -32,6 +30,9 @@ class BreedViewModel : ViewModel() {
             started = SharingStarted.Lazily,
             initialValue = emptyList()
         )
+    val favoriteBreeds: StateFlow<List<CatBreed>> = _breeds
+        .map { breeds -> breeds.filter { it.isFavorite } }
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     init {
         fetchBreeds()

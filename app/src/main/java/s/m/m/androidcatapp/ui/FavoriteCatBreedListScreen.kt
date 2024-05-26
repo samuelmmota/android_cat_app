@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -16,15 +14,10 @@ import s.m.m.androidcatapp.viewmodel.BreedViewModel
 import androidx.compose.runtime.getValue
 
 @Composable
-fun CatBreedListScreen(viewModel: BreedViewModel) {
-    val breeds by viewModel.filteredBreeds.collectAsState()
-    val searchQuery by viewModel.searchQuery.collectAsState()
+fun FavoriteCatBreedListScreen(viewModel: BreedViewModel) {
+    val breeds by viewModel.favoriteBreeds.collectAsState()
 
     Column {
-        SearchBar(
-            query = searchQuery,
-            onQueryChanged = viewModel::onSearchQueryChanged
-        )
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             modifier = Modifier.fillMaxSize(),
@@ -37,24 +30,9 @@ fun CatBreedListScreen(viewModel: BreedViewModel) {
     }
 }
 
-@Composable
-fun SearchBar(
-    query: String,
-    onQueryChanged: (String) -> Unit
-) {
-    OutlinedTextField(
-        value = query,
-        onValueChange = onQueryChanged,
-        label = { Text("Search Breeds") },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
-fun PreviewCatBreedListScreen() {
+fun PreviewFavoriteCatBreedListScreen() {
     val sampleBreeds = listOf(
         CatBreed("1", "Abyssinian", "0XYvRd7oD"),
         CatBreed("2", "Aegean", "ozEvzdVM-"),
