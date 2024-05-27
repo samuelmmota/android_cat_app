@@ -14,9 +14,10 @@ import androidx.compose.ui.unit.dp
 import s.m.m.androidcatapp.model.CatBreed
 import s.m.m.androidcatapp.viewmodel.BreedViewModel
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavController
 
 @Composable
-fun CatBreedListScreen(viewModel: BreedViewModel) {
+fun CatBreedListScreen(viewModel: BreedViewModel, navController: NavController) {
     val breeds by viewModel.filteredBreeds.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
 
@@ -31,7 +32,9 @@ fun CatBreedListScreen(viewModel: BreedViewModel) {
             contentPadding = PaddingValues(8.dp)
         ) {
             items(breeds) { breed ->
-                CatBreedItem(breed, viewModel::toggleFavorite)
+                CatBreedItem(breed, onClick = { breedId ->
+                    navController.navigate("breedDetail/$breedId")
+                }, viewModel::toggleFavorite)
             }
         }
     }
@@ -56,13 +59,23 @@ fun SearchBar(
 @Composable
 fun PreviewCatBreedListScreen() {
     val sampleBreeds = listOf(
-        CatBreed("1", "Abyssinian", "0XYvRd7oD", "9-11"),
-        CatBreed("2", "Aegean", "ozEvzdVM-", "13-15"),
+        CatBreed(
+            "1", "Abyssinian", "0XYvRd7oD", "9-11", "United States",
+            "Lively, Social, Fun-loving, Relaxed, Affectionate",
+            "Arabian Mau cats are social and energetic...."
+        ),
+        CatBreed(
+            "2", "Aegean", "ozEvzdVM-", "13-15", "United States",
+            "Lively, Social, Fun-loving, Relaxed, Affectionate",
+            "Arabian Mau cats are social and energetic...."
+        ),
         CatBreed(
             "3",
             "American Bobtail",
             "hBXicehMA",
-            "16-20"
+            "16-20", "United States",
+            "Lively, Social, Fun-loving, Relaxed, Affectionate",
+            "Arabian Mau cats are social and energetic...."
         )
     )
     LazyVerticalGrid(
@@ -71,7 +84,7 @@ fun PreviewCatBreedListScreen() {
         contentPadding = PaddingValues(8.dp)
     ) {
         items(sampleBreeds) { breed ->
-            CatBreedItem(breed = breed, onFavoriteClick = {})
+            CatBreedItem(breed = breed, onClick = {}, onFavoriteClick = {})
         }
     }
 }

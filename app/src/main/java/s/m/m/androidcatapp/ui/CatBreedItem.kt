@@ -1,6 +1,7 @@
 package s.m.m.androidcatapp.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -20,15 +21,19 @@ val sampleBreed = CatBreed(
     name = "Abyssinian",
     breedReferenceId = "0XYvRd7oD",
     lifeSpan = "12 - 14",
-    isFavorite = true
+    isFavorite = true,
+    origin = "United States",
+    temperament = "Lively, Social, Fun-loving, Relaxed, Affectionate",
+    description = "Arabian Mau cats are social and energetic...."
 )
 
 @Composable
-fun CatBreedItem(breed: CatBreed, onFavoriteClick: (String) -> Unit) {
+fun CatBreedItem(breed: CatBreed, onClick: (String) -> Unit, onFavoriteClick: (String) -> Unit) {
     Column(
         modifier = Modifier
             .padding(10.dp)
             .fillMaxWidth()
+            .clickable { onClick(breed.id) }
     ) {
         Box {
             Image(
@@ -62,11 +67,12 @@ fun CatBreedItem(breed: CatBreed, onFavoriteClick: (String) -> Unit) {
 }
 
 @Composable
-fun FavoriteCatBreedItem(breed: CatBreed, onFavoriteClick: (String) -> Unit) {
+fun FavoriteCatBreedItem(breed: CatBreed, onClick: (String) -> Unit, onFavoriteClick: (String) -> Unit) {
     Column(
         modifier = Modifier
             .padding(10.dp)
             .fillMaxWidth()
+            .clickable { onClick(breed.id) }
     ) {
         Box {
             Image(
@@ -108,6 +114,6 @@ fun FavoriteCatBreedItem(breed: CatBreed, onFavoriteClick: (String) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewCatBreedItems() {
-    CatBreedItem(breed = sampleBreed, onFavoriteClick = {})
-    FavoriteCatBreedItem(breed = sampleBreed, onFavoriteClick = {})
+    CatBreedItem(breed = sampleBreed, onClick = {}, onFavoriteClick = {})
+    FavoriteCatBreedItem(breed = sampleBreed, onClick = {}, onFavoriteClick = {})
 }

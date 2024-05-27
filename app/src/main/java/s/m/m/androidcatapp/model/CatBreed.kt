@@ -7,6 +7,9 @@ data class CatBreed(
     @SerializedName("name") val name: String,
     @SerializedName("reference_image_id") var breedReferenceId: String,
     @SerializedName("life_span") var lifeSpan: String,
+    @SerializedName("origin") var origin: String,
+    @SerializedName("temperament") var temperament: String,
+    @SerializedName("description") var description: String,
     var isFavorite: Boolean = false
 ) {
     val breedReferenceImageUrl: String

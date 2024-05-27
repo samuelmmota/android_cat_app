@@ -71,4 +71,8 @@ class BreedViewModel : ViewModel() {
             }
         }
     }
+
+    fun getCatBreed(breedId: String): CatBreed? {
+        return _breeds.value.find { it.id == breedId }
+    }
 }

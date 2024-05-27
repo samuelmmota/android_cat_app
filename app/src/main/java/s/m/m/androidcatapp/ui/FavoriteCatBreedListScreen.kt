@@ -14,10 +14,11 @@ import androidx.compose.ui.unit.dp
 import s.m.m.androidcatapp.model.CatBreed
 import s.m.m.androidcatapp.viewmodel.BreedViewModel
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavController
 import java.util.Locale
 
 @Composable
-fun FavoriteCatBreedListScreen(viewModel: BreedViewModel) {
+fun FavoriteCatBreedListScreen(viewModel: BreedViewModel, navController: NavController) {
     val breeds by viewModel.favoriteBreeds.collectAsState()
     val averageFavoriteBreedsLifeSpan by viewModel.averageFavoriteBreedsLifeSpan.collectAsState()
 
@@ -38,7 +39,9 @@ fun FavoriteCatBreedListScreen(viewModel: BreedViewModel) {
             contentPadding = PaddingValues(8.dp)
         ) {
             items(breeds) { breed ->
-                FavoriteCatBreedItem(breed, viewModel::toggleFavorite)
+                FavoriteCatBreedItem(breed, onClick = { breedId ->
+                    navController.navigate("breedDetail/$breedId")
+                }, viewModel::toggleFavorite)
             }
         }
     }
@@ -48,14 +51,25 @@ fun FavoriteCatBreedListScreen(viewModel: BreedViewModel) {
 @Composable
 fun PreviewFavoriteCatBreedListScreen() {
     val sampleBreeds = listOf(
-        CatBreed("1", "Abyssinian", "0XYvRd7oD", "9-11"),
-        CatBreed("2", "Aegean", "ozEvzdVM-", "13-15"),
         CatBreed(
-            "3",
-            "American Bobtail",
-            "hBXicehMA",
-            "16-20"
+            "1", "Abyssinian", "0XYvRd7oD", "9-11", "United States",
+            "Lively, Social, Fun-loving, Relaxed, Affectionate",
+            "Arabian Mau cats are social and energetic...."
         )
+    )
+    CatBreed(
+        "2", "Aegean", "ozEvzdVM-", "13-15", "United States",
+        "Lively, Social, Fun-loving, Relaxed, Affectionate",
+        "Arabian Mau cats are social and energetic...."
+    )
+    CatBreed(
+        "3",
+        "American Bobtail",
+        "hBXicehMA",
+        "16-20",
+        "United States",
+        "Lively, Social, Fun-loving, Relaxed, Affectionate",
+        "Arabian Mau cats are social and energetic...."
     )
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -63,7 +77,7 @@ fun PreviewFavoriteCatBreedListScreen() {
         contentPadding = PaddingValues(8.dp)
     ) {
         items(sampleBreeds) { breed ->
-            FavoriteCatBreedItem(breed = breed, onFavoriteClick = {})
+            FavoriteCatBreedItem(breed = breed, onClick = {}, onFavoriteClick = {})
         }
     }
 }

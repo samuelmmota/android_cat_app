@@ -14,6 +14,7 @@ import androidx.navigation.compose.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import s.m.m.androidcatapp.ui.BreedDetailScreen
 import s.m.m.androidcatapp.ui.CatBreedListScreen
 import s.m.m.androidcatapp.ui.FavoriteCatBreedListScreen
 import s.m.m.androidcatapp.viewmodel.BreedViewModel
@@ -30,11 +31,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    val viewModel: BreedViewModel = viewModel()
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
-        Navigation(navController, Modifier.padding(innerPadding), viewModel)
+        Navigation(navController, Modifier.padding(innerPadding))
     }
 }
 
@@ -79,10 +79,18 @@ fun BottomNavigationBar(navController: NavController) {
 }
 
 @Composable
-fun Navigation(navController: NavHostController, modifier: Modifier, viewModel: BreedViewModel) {
+fun Navigation(navController: NavHostController, modifier: Modifier) {
+    val viewModel: BreedViewModel = viewModel()
     NavHost(navController, startDestination = "cat_breeds") {
-        composable("cat_breeds") { CatBreedListScreen(viewModel) }
-        composable("favorite_cat_breeds") { FavoriteCatBreedListScreen(viewModel) }
+        composable("cat_breeds") { CatBreedListScreen(viewModel,navController) }
+        composable("favorite_cat_breeds") { FavoriteCatBreedListScreen(viewModel,navController) }
+        composable("breedDetail/{breedId}") { backStackEntry ->
+                val breedId = backStackEntry.arguments?.getString("breedId")
+                breedId?.let {
+                    val breed = viewModel.getCatBreed(it)
+                    breed?.let { BreedDetailScreen(navController,it, onFavoriteClick = viewModel::toggleFavorite) }
+                }
+        }
     }
 }
 
