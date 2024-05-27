@@ -34,6 +34,16 @@ class BreedViewModel : ViewModel() {
         .map { breeds -> breeds.filter { it.isFavorite } }
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
+    val averageFavoriteBreedsLifeSpan: StateFlow<Double> = favoriteBreeds
+        .map { breeds ->
+            if (breeds.isNotEmpty()) {
+                breeds.map { (it.minLifeSpan + it.maxLifeSpan) / 2.0 }.average()
+            } else {
+                0.0
+            }
+        }
+        .stateIn(viewModelScope, SharingStarted.Lazily, 0.0)
+
     init {
         fetchBreeds()
     }

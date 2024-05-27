@@ -56,12 +56,13 @@ fun SearchBar(
 @Composable
 fun PreviewCatBreedListScreen() {
     val sampleBreeds = listOf(
-        CatBreed("1", "Abyssinian", "0XYvRd7oD"),
-        CatBreed("2", "Aegean", "ozEvzdVM-"),
+        CatBreed("1", "Abyssinian", "0XYvRd7oD", "9-11"),
+        CatBreed("2", "Aegean", "ozEvzdVM-", "13-15"),
         CatBreed(
             "3",
             "American Bobtail",
             "hBXicehMA",
+            "16-20"
         )
     )
     LazyVerticalGrid(
