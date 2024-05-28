@@ -65,7 +65,11 @@ class BreedViewModel : ViewModel() {
     fun toggleFavorite(breedId: String) {
         _breeds.value = _breeds.value.map { breed ->
             if (breed.id == breedId) {
-                breed.copy(isFavorite = !breed.isFavorite)
+                val updatedBreed = breed.copy(isFavorite = !breed.isFavorite)
+                viewModelScope.launch {
+                    repository.updateFavoriteBreedById(updatedBreed.id)
+                }
+                updatedBreed
             } else {
                 breed
             }

@@ -11,4 +11,12 @@ class CatBreedLocalDatabaseSource(private val catBreedDao: CatBreedDao) : DataSo
     suspend fun insertCatBreeds(vararg catBreed: CatBreed) {
         catBreedDao.insertCatBreed(*catBreed)
     }
+
+    suspend fun getFavoriteCatBreedIds(): List<String> {
+        return catBreedDao.getFavoriteCatBreedIds()
+    }
+
+    suspend fun updateCatBreed(catBreedId: String) {
+        catBreedDao.updateCatBreedFavorite(catBreedId)
+    }
 }

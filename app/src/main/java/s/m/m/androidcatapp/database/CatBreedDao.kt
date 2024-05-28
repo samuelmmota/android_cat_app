@@ -14,6 +14,9 @@ interface CatBreedDao {
     @Query("SELECT catBreed.* FROM catBreed ORDER BY name ASC")
     suspend fun getAllCatBreeds(): List<CatBreed>
 
+    @Query("SELECT id FROM catBreed WHERE isFavorite = 1")
+    suspend fun getFavoriteCatBreedIds(): List<String>
+
     @Query("UPDATE catBreed SET isFavorite = NOT isFavorite WHERE id = :catBreedId")
     suspend fun updateCatBreedFavorite(catBreedId: String)
 }

@@ -31,6 +31,16 @@ enum class CatRepositoryFetchStrategy(private val sourceList: List<CatRepository
         for (source in this.sourceList) {
             val dataSource = dataSourceHolder.getDataSourceFromEnum(source)
             dataSourceCatBreedListResult = dataSource.fetch()!!
+            when (source) {
+                CatRepositoryDataSourceEnum.REMOTE -> {
+                    val favoriteIds: List<String> = databaseDataSource.getFavoriteCatBreedIds()
+                    dataSourceCatBreedListResult = dataSourceCatBreedListResult.map { catBreed ->
+                        catBreed.copy(isFavorite = favoriteIds.contains(catBreed.id))
+                    }
+                }
+
+                else -> {}
+            }
             updateOtherSourcesIfRequired(source, dataSourceCatBreedListResult, dataSourceHolder)
         }
         return dataSourceCatBreedListResult ?: emptyList()

@@ -11,4 +11,8 @@ class CatRepository() {
     suspend fun getBreeds(repositoryFetchStrategy: CatRepositoryFetchStrategy = CatRepositoryFetchStrategy.STANDARD): List<CatBreed> {
         return repositoryFetchStrategy.fetch(localDatabaseSource, catBreedApiDataSource)
     }
+
+    suspend fun updateFavoriteBreedById(catBreedId: String) {
+        return localDatabaseSource.updateCatBreed(catBreedId)
+    }
 }
