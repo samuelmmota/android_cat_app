@@ -9,15 +9,15 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import s.m.m.androidcatapp.model.CatBreed
 
-interface CatApiService {
+interface CatBreedApiInterface {
     @GET("breeds")
-    suspend fun getBreeds(): List<CatBreed>
+    suspend fun getBreeds(): List<CatBreed>?
 
     @GET("images/")
     suspend fun getImageByBreedId(@Query("breed_ids") breedId: String): Image
 }
 
-object RetrofitClient {
+object CatBreedApi {
     private const val BASE_URL = "https://api.thecatapi.com/v1/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -28,12 +28,16 @@ object RetrofitClient {
         .addInterceptor(loggingInterceptor)
         .build()
 
-    val apiService: CatApiService by lazy {
+    val apiService: CatBreedApiInterface by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(CatApiService::class.java)
+            .create(CatBreedApiInterface::class.java)
+    }
+
+    suspend fun getBreeds(): List<CatBreed>? {
+        return apiService.getBreeds()
     }
 }

@@ -14,6 +14,7 @@ import androidx.navigation.compose.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import s.m.m.androidcatapp.database.ApiDatabase
 import s.m.m.androidcatapp.ui.BreedDetailScreen
 import s.m.m.androidcatapp.ui.CatBreedListScreen
 import s.m.m.androidcatapp.ui.FavoriteCatBreedListScreen
@@ -22,6 +23,8 @@ import s.m.m.androidcatapp.viewmodel.BreedViewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //ApiDatabase.init(this)
+        ApiDatabase.init(baseContext)
         setContent {
             MainScreen()
         }

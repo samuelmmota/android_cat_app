@@ -1,18 +1,14 @@
 package s.m.m.androidcatapp.repository
 
-import android.media.Image
-
+import s.m.m.androidcatapp.database.ApiDatabase
 import s.m.m.androidcatapp.model.CatBreed
-import s.m.m.androidcatapp.retrofit.RetrofitClient
+import s.m.m.androidcatapp.retrofit.CatBreedApi
 
-class CatRepository {
-    private val apiService = RetrofitClient.apiService
-
-    suspend fun getBreeds(): List<CatBreed> {
-        return apiService.getBreeds()
-    }
-
-    suspend fun getImagesByBreedId(breedId: String): Image {
-        return apiService.getImageByBreedId(breedId)
+class CatRepository() {
+    private val database = ApiDatabase.getDatabase()
+    private val localDatabaseSource = CatBreedLocalDatabaseSource(database.catBreedDao())
+    private val catBreedApiDataSource = CatBreedApiDataSource(CatBreedApi)
+    suspend fun getBreeds(repositoryFetchStrategy: CatRepositoryFetchStrategy = CatRepositoryFetchStrategy.STANDARD): List<CatBreed> {
+        return repositoryFetchStrategy.fetch(localDatabaseSource, catBreedApiDataSource)
     }
 }

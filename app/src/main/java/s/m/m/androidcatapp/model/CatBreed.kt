@@ -9,11 +9,11 @@ import com.google.gson.annotations.SerializedName
 data class CatBreed(
     @PrimaryKey @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
-    @SerializedName("reference_image_id") var breedReferenceId: String,
-    @SerializedName("life_span") var lifeSpan: String,
-    @SerializedName("origin") var origin: String,
-    @SerializedName("temperament") var temperament: String,
-    @SerializedName("description") var description: String,
+    @SerializedName("reference_image_id") var breedReferenceId: String?,
+    @SerializedName("life_span") var lifeSpan: String?,
+    @SerializedName("origin") var origin: String?,
+    @SerializedName("temperament") var temperament: String?,
+    @SerializedName("description") var description: String?,
     var isFavorite: Boolean = false
 ) {
     @get:Ignore
@@ -22,9 +22,9 @@ data class CatBreed(
 
     @get:Ignore
     val minLifeSpan: Int
-        get() = lifeSpan.split("-").getOrNull(0)?.trim()?.toIntOrNull() ?: 0
+        get() = lifeSpan?.split("-")?.getOrNull(0)?.trim()?.toIntOrNull() ?: 0
 
     @get:Ignore
     val maxLifeSpan: Int
-        get() = lifeSpan.split("-").getOrNull(1)?.trim()?.toIntOrNull() ?: 0
+        get() = lifeSpan?.split("-")?.getOrNull(1)?.trim()?.toIntOrNull() ?: 0
 }

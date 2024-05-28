@@ -12,10 +12,7 @@ interface CatBreedDao {
     suspend fun insertCatBreed(vararg catBreed: CatBreed)
 
     @Query("SELECT catBreed.* FROM catBreed ORDER BY name ASC")
-    suspend fun getAllCatBreeds(): List<CatBreed>?
-
-    @Query("SELECT catBreed.* FROM catBreed WHERE catBreed.id = :catBreedId")
-    suspend fun getCatBreedById(catBreedId: String): CatBreed
+    suspend fun getAllCatBreeds(): List<CatBreed>
 
     @Query("UPDATE catBreed SET isFavorite = NOT isFavorite WHERE id = :catBreedId")
     suspend fun updateCatBreedFavorite(catBreedId: String)
