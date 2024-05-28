@@ -14,8 +14,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarBorder
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -28,6 +31,7 @@ import coil.compose.rememberImagePainter
 
 @Composable
 fun BreedDetailScreen(navController: NavController, breed: CatBreed, onFavoriteClick: (String) -> Unit) {
+    var isFavorite by remember { mutableStateOf(breed.isFavorite) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -43,12 +47,14 @@ fun BreedDetailScreen(navController: NavController, breed: CatBreed, onFavoriteC
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
                         IconButton(
-                            onClick = { onFavoriteClick(breed.id) },
+                            onClick = {
+                                isFavorite = !isFavorite
+                                onFavoriteClick(breed.id)
+                            },
                             modifier = Modifier.padding(start = 8.dp)
                         ) {
                             Icon(
-                                imageVector = if (breed.isFavorite) Icons.Filled.Star else Icons.Outlined.StarBorder,
-                                contentDescription = if (breed.isFavorite) "Unmark as favorite" else "Mark as favorite",
+                                imageVector = if (isFavorite) Icons.Filled.Star else Icons.Outlined.StarBorder,                                contentDescription = if (breed.isFavorite) "Unmark as favorite" else "Mark as favorite",
                                 tint = MaterialTheme.colors.secondary
                             )
                         }
